@@ -1,0 +1,9 @@
+MySQL
+
+CREATE DATABASE sohssr;
+USE sohssr;
+
+CREATE TABLE users (
+    userId VARCHAR(31) NOT NULL PRIMARY KEY,
+    userPassword VARCHAR(127) NOT NULL
+);
