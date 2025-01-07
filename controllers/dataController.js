@@ -1,5 +1,6 @@
 const log = require('../services/log');
-const { getFestList, getSearchFestList } = require('../models/festSearcher');
+const { getFestList, getSearchFestList } = require('../models/festivalSearcher');
+const { postComment } = require('../models/commentService');
 
 exports.getFestList = (req, res) => {
     /*
@@ -18,6 +19,11 @@ exports.getFestList = (req, res) => {
 }
 
 exports.getSearchFestList = async (req, res) => {
+/*
+    {
+        "keyword": "경복궁",
+    }
+*/
     const { keyword } = req.body;
 
     log(`GET Req: ${keyword}`);
@@ -29,7 +35,7 @@ exports.getSearchFestList = async (req, res) => {
     const params = {
         keyword,
         numOfRows: 10,
-        pageNo: 1,  
+        pageNo: 1,
         _type: 'json'
     };
 
@@ -41,3 +47,7 @@ exports.getSearchFestList = async (req, res) => {
     }
 };
 
+exports.postComment = (req, res) => {
+    const { content, userId, shopId } = req.body;
+    postComment(content, userId, shopId);
+}

@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-const log = require('../services/log');
+const log = require('./log');
 
 const dbConfig = {
     host: 'localhost',

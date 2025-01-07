@@ -1,13 +1,13 @@
-const db = require('./db');
+const db = require('../services/db');
 const log = require('../services/log');
 const { hashPassword, comparePassword } = require('./passwordService');
 
-const createUser = (userId, userPassword, userPhone, userName) => {
+const createUser = (userId, userPassword, userPhone = '', userName = '') => {
     return new Promise((resolve, reject) => {
         log(`Creating new user: ${userId}, ${userPassword}, ${userPhone}, ${userName}`, 2);
         if (!userId || !userPassword) {
-            log('ID or password is missing', 3);
-            reject(new Error('UserId or UserPassword is missing.'));
+            log('ID or Password is missing', 3);
+            reject(new Error('ID or Password is missing.'));
             return;
         }
 
@@ -48,6 +48,7 @@ const createUser = (userId, userPassword, userPhone, userName) => {
 
 const authenticateUser = (userId, userPassword) => {
     return new Promise((resolve, reject) => {
+        log(`Logging in: ${userId}, ${userPassword}`, 2);
         let query = 'SELECT userPassword FROM users WHERE userId = ?';
         db.query(query, [userId], (err, results) => {
             if (err) {
