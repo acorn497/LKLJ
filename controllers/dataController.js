@@ -10,6 +10,8 @@ exports.getSearchFestList = async (req, res) => {
     */
     const { keyword, areaCd, baseYm, pageNo } = req.body;
 
+    log(req.body);
+
     log(`POST Req: ${keyword}`);
 
     if (!keyword) {
