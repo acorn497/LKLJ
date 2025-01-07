@@ -4,10 +4,26 @@ CREATE DATABASE sohssr;
 USE sohssr;
 
 DROP TABLE users;
+DROP TABLE shops;
+DROP TABLE comment;
 
 CREATE TABLE users (
-    userId VARCHAR(31) NOT NULL PRIMARY KEY,
-    userPassword VARCHAR(127) NOT NULL,
+    userId VARCHAR(32) NOT NULL PRIMARY KEY,
+    userPassword VARCHAR(128) NOT NULL,
     userPhone VARCHAR(11) NOT NULL,
-    userName VARCHAR(31)
+    userName VARCHAR(32)
+);
+
+CREATE TABLE shops (
+    shopId INT AUTO_INCREMENT PRIMARY KEY,
+    shopName VARCHAR(32) NOT NULL,
+    shopLocation VARCHAR(63) NOT NULL
+);
+
+CREATE TABLE comment (
+    commentId INT AUTO_INCREMENT PRIMARY KEY,
+    shopId INT NOT NULL,
+    userName VARCHAR(32) NOT NULL,
+    writeTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    content VARCHAR(512) NOT NULL
 );

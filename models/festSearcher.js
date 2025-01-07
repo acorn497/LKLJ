@@ -1,5 +1,5 @@
 const axios = require('axios');
-const log = require('./log');
+const log = require('../services/log');
 
 
 exports.getFestList = async (areaCd, signguCd, baseYm, pageNo) => {

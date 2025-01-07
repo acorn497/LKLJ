@@ -1,5 +1,5 @@
 const db = require('./db');
-const log = require('./log');
+const log = require('../services/log');
 const { hashPassword, comparePassword } = require('./passwordService');
 
 const createUser = (userId, userPassword, userPhone, userName) => {
@@ -59,8 +59,10 @@ const authenticateUser = (userId, userPassword) => {
                     comparePassword(userPassword, results[0].userPassword)
                         .then(isMatch => {
                             if (isMatch) {
+                                log(`Authentication successful: ${userId}`, 1);
                                 resolve("Authentication successful");
                             } else {
+                                log(`Authentication failed: ${userId}`, 3);
                                 reject("Incorrect password");
                             }
                         })

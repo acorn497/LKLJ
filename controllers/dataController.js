@@ -1,4 +1,4 @@
-const log = require('../models/log');
+const log = require('../services/log');
 const { getFestList, getSearchFestList } = require('../models/festSearcher');
 
 exports.getFestList = (req, res) => {
