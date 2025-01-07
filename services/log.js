@@ -1,6 +1,6 @@
 const color = require('ansi-colors');
 
-let smoothPrint = true;
+let smoothPrint = false;
 let isProcessing = false;
 const messageQueue = [];
 

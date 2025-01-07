@@ -8,7 +8,7 @@ exports.getSearchFestList = async (req, res) => {
             "keyword": "경복궁",
         }
     */
-    const { keyword, areaCd, baseYm, pageNo } = req.body;
+    const { keyword } = req.body;
 
     log(req.body);
 
@@ -19,8 +19,9 @@ exports.getSearchFestList = async (req, res) => {
     }
 
     try {
-        const data = await getSearchFestList(keyword, areaCd, baseYm, pageNo);
-        res.status(200).json(data);
+        const data = await getSearchFestList(keyword);
+        log(data.items, 1);
+        res.status(200).json(data.items);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
