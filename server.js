@@ -7,6 +7,7 @@ const hello = require('./services/hello');
 const pageRoutes = require('./routes/pageRoute');
 const userRoutes = require('./routes/userRoute');
 const dataRoutes = require('./routes/dataRoute');
+const authenticateToken = require('./middleware/authMiddleware');
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use('/', pageRoutes);
 app.use('/api/user', userRoutes);
-app.use('/api/data', dataRoutes);
+app.use('/api/data', authenticateToken, dataRoutes);
 
 const PORT = 3000;
 app.listen(PORT, () => {

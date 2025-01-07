@@ -1,7 +1,9 @@
 const log = require('../services/log');
 const { changePassword } = require('../models/passwordService');
 const { createUser, authenticateUser } = require('../models/userModel');
+const jwt = require('jsonwebtoken');
 
+const secretKey = 'your_secret_key';
 
 exports.registerUser = (req, res) => {
     const { userId, userPassword, userPhone, userName } = req.body;
@@ -13,7 +15,18 @@ exports.registerUser = (req, res) => {
 exports.loginUser = (req, res) => {
     const { userId, userPassword } = req.body;
     authenticateUser(userId, userPassword)
-        .then(message => res.status(200).json({ message }))
+        .then(user => {
+            const token = jwt.sign(
+                { userId: user.userId, userName: user.userName },
+                secretKey,
+                { expiresIn: '1h' }
+            );
+
+            res.status(200).json({
+                message: 'Login successful',
+                token
+            });
+        })
         .catch(error => res.status(400).json({ error }));
 };
 
@@ -22,4 +35,4 @@ exports.changePassword = (req, res) => {
     changePassword(userId, oldPassword, newPassword)
         .then(message => res.status(200).json({ message }))
         .catch(error => res.status(400).json({ error }));
-}
+};
