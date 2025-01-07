@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const hashPassword = (password) => {
+exports.hashPassword = (password) => {
     return new Promise((resolve, reject) => {
         bcrypt.hash(password, 10, (err, hashedPassword) => {
             if (err) {
@@ -12,7 +12,7 @@ const hashPassword = (password) => {
     });
 };
 
-const comparePassword = (password, hashedPassword) => {
+exports.comparePassword = (password, hashedPassword) => {
     return new Promise((resolve, reject) => {
         bcrypt.compare(password, hashedPassword, (err, isMatch) => {
             if (err) {
@@ -22,9 +22,4 @@ const comparePassword = (password, hashedPassword) => {
             }
         });
     });
-};
-
-module.exports = {
-    hashPassword,
-    comparePassword
 };

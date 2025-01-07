@@ -34,7 +34,19 @@ const log = (message, type = 0) => {
 
   const paddedType = typeMessage.padEnd(7, ' ');
 
-  const lines = message.split('\n');
+  // 메시지가 객체인 경우 JSON 문자열로 변환
+  let messageStr;
+  if (typeof message === 'object') {
+    try {
+      messageStr = JSON.stringify(message, null, 2); // 보기 좋게 포맷팅
+    } catch (err) {
+      messageStr = '[Unserializable Object]';
+    }
+  } else {
+    messageStr = String(message);
+  }
+
+  const lines = messageStr.split('\n');
   let formattedMessage = `[ ${colorize(paddedType)} | ${hour}:${minute}:${second} ] | ${lines[0]}`;
 
   for (let i = 1; i < lines.length; i++) {
