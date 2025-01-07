@@ -48,7 +48,7 @@ const createUser = (userId, userPassword, userPhone = '', userName = '') => {
 
 const authenticateUser = (userId, userPassword) => {
     return new Promise((resolve, reject) => {
-        log(`Logging in: ${userId}, ${userPassword}`, 2);
+        log(`Logging in: ${userId}, ${userPassword}`);
         let query = 'SELECT userPassword FROM users WHERE userId = ?';
         db.query(query, [userId], (err, results) => {
             if (err) {

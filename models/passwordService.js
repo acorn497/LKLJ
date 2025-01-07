@@ -23,7 +23,7 @@ exports.comparePassword = (password, hashedPassword) => {
 
 exports.changePassword = (userId, oldPassword, newPassword) => {
     return new Promise((resolve, reject) => {
-        log(`Changing password for user: ${userId}`, 2);
+        log(`Changing password for user: ${userId}`);
 
         const query = 'SELECT userPassword FROM users WHERE userId = ?';
         db.query(query, [userId], (err, results) => {

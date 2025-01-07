@@ -3,7 +3,7 @@ const log = require('../services/log');
 
 exports.postComment = (content, userId, shopId) => {
     return new Promise((resolve, reject) => {
-        log(`Posting new comment: ${userId}, ${content}`, 2);
+        log(`Posting new comment: ${userId}, ${content}`);
         const query = `INSERT INTO comment (userId, shopId, content) VALUES (?, ?, ?)`;
         db.query(query, [userId, shopId, content], (err, result) => {
             if (err) {
