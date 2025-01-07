@@ -2,8 +2,8 @@ const log = require('../models/log');
 const { createUser, authenticateUser } = require('../models/userModel');
 
 exports.registerUser = (req, res) => {
-    const { userId, userPassword } = req.body;
-    createUser(userId, userPassword)
+    const { userId, userPassword, userPhone, userName } = req.body;
+    createUser(userId, userPassword, userPhone, userName)
         .then(message => res.status(201).json({ message }))
         .catch(error => res.status(400).json({ error }));
 };

@@ -2,42 +2,49 @@ const db = require('./db');
 const log = require('./log');
 const { hashPassword, comparePassword } = require('./passwordService');
 
-const createUser = (userId, userPassword) => {
+const createUser = (userId, userPassword, userPhone, userName) => {
     return new Promise((resolve, reject) => {
-        log(`Creating new user: ${userId}, ${userPassword}`, 2);
-        if (userId == null || userPassword == null) {
+        log(`Creating new user: ${userId}, ${userPassword}, ${userPhone}, ${userName}`, 2);
+        if (!userId || !userPassword) {
             log('ID or password is missing', 3);
             reject(new Error('UserId or UserPassword is missing.'));
-            return;        
+            return;
         }
-        let query = 'SELECT COUNT(*) AS count FROM users WHERE userId = ?';
-        db.query(query, [userId], (err, results) => {
-            if (err) {
-                reject(err);
-            } else {
-                if (results[0].count > 0) {
-                    log(`Existing ID`, 3);
-                    reject("ID is already exists");
-                } else {
-                    hashPassword(userPassword)
-                        .then(hashedPassword => {
-                            query = 'INSERT INTO users (userId, userPassword) VALUES (?, ?)';
-                            db.query(query, [userId, hashedPassword], (err, result) => {
-                                if (err) {
-                                    reject(err);
-                                } else {
-                                    log(`Created new user`, 1);   
-                                    resolve("User created successfully");
 
-                                }
-                            });
-                        })
-                        .catch(err => reject(err));
-                }
+        const queryCheck = 'SELECT COUNT(*) AS count FROM users WHERE userId = ?';
+        db.query(queryCheck, [userId], (err, results) => {
+            if (err) {
+                log(err, 3);
+                reject(new Error('Database error during user check.'));
+                return;
+            }
+
+            if (results[0].count > 0) {
+                log(`Existing ID`, 3);
+                reject(new Error('ID already exists.'));
+            } else {
+                hashPassword(userPassword)
+                    .then(hashedPassword => {
+                        const queryInsert = 'INSERT INTO users (userId, userPassword, userPhone, userName) VALUES (?, ?, ?, ?)';
+                        db.query(queryInsert, [userId, hashedPassword, userPhone, userName], (err, result) => {
+                            if (err) {
+                                log(err, 3);
+                                reject(new Error('Database error during user creation.'));
+                            } else {
+                                log(`Created new user`, 1);
+                                resolve('User created successfully');
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        log(err, 3);
+                        reject(new Error('Error during password hashing.'));
+                    });
             }
         });
     });
 };
+
 
 const authenticateUser = (userId, userPassword) => {
     return new Promise((resolve, reject) => {

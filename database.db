@@ -3,7 +3,11 @@ MySQL
 CREATE DATABASE sohssr;
 USE sohssr;
 
+DROP TABLE users;
+
 CREATE TABLE users (
     userId VARCHAR(31) NOT NULL PRIMARY KEY,
-    userPassword VARCHAR(127) NOT NULL
+    userPassword VARCHAR(127) NOT NULL,
+    userPhone VARCHAR(11) NOT NULL,
+    userName VARCHAR(31)
 );
